@@ -61,6 +61,7 @@ textarea {
 }
  
 .EditProjectPage,
+.EditTaskPage,
 .AddProject,
 .AddTask {
   background: #f9eec3;
@@ -76,6 +77,10 @@ textarea {
  
 .EditProjectPage {
   background-color: rgb(239, 196, 88);
+}
+
+.EditTaskPage {
+  background-color: rgba(80, 119, 219, 0.501);
 }
  
 .EditProjectPage form,
