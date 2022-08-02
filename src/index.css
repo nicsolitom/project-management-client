@@ -85,7 +85,9 @@ textarea {
  
 .EditProjectPage form,
 .AddTask form,
-.AddProject form {
+.AddProject form,
+.SignupPage form,
+.LoginPage form {
   display: flex;
   flex-direction: column;
   align-items: center;

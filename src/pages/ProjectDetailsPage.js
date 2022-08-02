@@ -5,31 +5,32 @@ import AddTask from "../components/AddTask";
 import TaskCard from "../components/TaskCard";
 
 const API_URL = "http://localhost:5005";
- 
- 
-function ProjectDetailsPage (props) {
+
+function ProjectDetailsPage(props) {
   const [project, setProject] = useState(null);
 
   const { projectId } = useParams();
 
-  
   const getProject = () => {
-      axios
-      .get(`${API_URL}/api/projects/${projectId}`)
+    const storedToken = localStorage.getItem("authToken");
+
+    axios
+      .get(`${API_URL}/api/projects/${projectId}`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then((response) => {
-          const oneProject = response.data;
-          setProject(oneProject);
-        })
-        .catch((error) => console.log(error));
-    };
-    
-    useEffect(()=> {
-      getProject()
-    }, []);
-    
-  
+        const oneProject = response.data;
+        setProject(oneProject);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getProject();
+  }, []);
+
   return (
-    <div className="ProjectDetails">
+    <div className='ProjectDetails'>
       {project && (
         <>
           <h1>{project.title}</h1>
@@ -37,23 +38,25 @@ function ProjectDetailsPage (props) {
         </>
       )}
 
-        <AddTask refreshProject={getProject} projectId={projectId} />
+      <AddTask refreshProject={getProject} projectId={projectId} />
 
-      {project &&
+      {!project ? (
+        <p>loading...</p>
+      ) : (
         project.tasks.map((task) => {
-            return (
-            <TaskCard key={task._id} {...task} />
-      )})}
- 
-      <Link to="/projects">
+          return <TaskCard key={task._id} {...task} />;
+        })
+      )}
+
+      <Link to='/projects'>
         <button>Back to projects</button>
       </Link>
 
       <Link to={`/projects/edit/${projectId}`}>
         <button>Edit Project</button>
-      </Link>   
+      </Link>
     </div>
   );
 }
- 
+
 export default ProjectDetailsPage;
